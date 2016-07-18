@@ -12,7 +12,7 @@ const Chart = (props) => (
 );
 
 Chart.propTypes = {
-  data: React.PropTypes.Object.isRequired,
+  data: React.PropTypes.object.isRequired,
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
 };

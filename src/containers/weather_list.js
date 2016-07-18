@@ -2,12 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Chart from '../components/chart';
 
-const TEMP = 'temp';
-const PRESSURE = 'pressure';
-const HUMIDITY = 'humidity';
-
-function createWeatherChartData(weatherList, attrName) {
-  const data = weatherList.map((weather) => weather.main[attrName]);
+function createWeatherChartData(weatherData) {
   return {
     labels: ['Today', 'Tomorrow', '3rd', '4th', '5th'],
     datasets: [
@@ -30,16 +25,16 @@ function createWeatherChartData(weatherList, attrName) {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data,
+        data: weatherData,
       },
     ],
   };
 }
 
-function renderWeatherAttrChart(weatherList, attrName) {
+function renderWeatherAttrChart(data) {
   return (
     <Chart
-      data={createWeatherChartData(weatherList, attrName)}
+      data={createWeatherChartData(data)}
       width={240}
       height={180}
     />
@@ -48,12 +43,16 @@ function renderWeatherAttrChart(weatherList, attrName) {
 
 function renderWeather(cityData: Object) {
   const cityName: string = cityData.city.name;
+  const tempList = cityData.list.map((weather) => (weather.main.temp));
+  const pressureList = cityData.list.map((weather) => (weather.main.pressure));
+  const humidityList = cityData.list.map((weather) => (weather.main.humidity));
+
   return (
     <tr key={cityName}>
       <td>{cityName}</td>
-      <td>{renderWeatherAttrChart(cityData.list, TEMP)}</td>
-      <td>{renderWeatherAttrChart(cityData.list, PRESSURE)}</td>
-      <td>{renderWeatherAttrChart(cityData.list, HUMIDITY)}</td>
+      <td>{renderWeatherAttrChart(tempList)}</td>
+      <td>{renderWeatherAttrChart(pressureList)}</td>
+      <td>{renderWeatherAttrChart(humidityList)}</td>
     </tr>
   );
 }
